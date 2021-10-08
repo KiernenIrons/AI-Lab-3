@@ -2,7 +2,7 @@
 #include <iostream>
 
 Game::Game() :
-	m_window{ sf::VideoMode{ SCREEN_WIDTH, SCREEN_HEIGHT, 32 }, "AI Lab 3" },
+	m_window{ sf::VideoMode{ G_SCREEN_WIDTH, G_SCREEN_HEIGHT, 32 }, "AI Lab 3" },
 	m_exitGame{ false } //when true game will exit
 {
 	init(); // load font
@@ -67,12 +67,12 @@ void Game::update(sf::Time t_deltaTime)
 		std::cout << "Gameplay Screen Active" << std::endl;
 
 		m_player.update(t_deltaTime);
-		m_player.processWalls(m_window);
+		m_player.handleWallWrap(m_window);
 
 		for (Alien* alien : m_alien)
 		{
 			alien->update(t_deltaTime);
-			alien->processWalls(m_window);
+			alien->handleWallWrap(m_window);
 		}
 	}
 

@@ -11,7 +11,7 @@ Player::Player()
 	m_turn = 3.0f;
 	m_angleRadians = 0.0f;
 	m_velocity = { 0,0 };
-	m_character.setPosition(SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2);
+	m_character.setPosition(G_SCREEN_WIDTH / 2 - 100, G_SCREEN_HEIGHT / 2);
 }
 
 void Player::update(sf::Time t_deltaTime)
