@@ -46,6 +46,18 @@
     <ClInclude Include="Audio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="playerBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alien.cpp">
@@ -61,6 +73,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Audio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="playerBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,6 +7,7 @@ Game::Game() :
 {
 	init(); // load font
 
+	m_characters.push_back(new Character(new playerBehaviour()));
 }
 
 Game::~Game()
@@ -19,16 +20,19 @@ void Game::run()
 	sf::Clock clock;
 	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time timePerFrame = sf::seconds(1.f / 60.f); // 60 fps
+
 	while (m_window.isOpen())
 	{
 		processEvents(); // as many as possible
 		timeSinceLastUpdate += clock.restart();
+
 		while (timeSinceLastUpdate > timePerFrame)
 		{
 			timeSinceLastUpdate -= timePerFrame;
 			processEvents(); // at least 60 fps
 			update(timePerFrame); //60 fps
 		}
+
 		render(); // as many as possible
 	}
 }
@@ -66,14 +70,7 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		std::cout << "Gameplay Screen Active" << std::endl;
 
-		m_player.update(t_deltaTime);
-		m_player.handleWallWrap(m_window);
-
-		for (Alien* alien : m_alien)
-		{
-			alien->update(t_deltaTime);
-			alien->handleWallWrap(m_window);
-		}
+		//m_player.handleWallWrap(m_window);
 	}
 
 	walletText.setString("Materials: " + std::to_string(wallet));
@@ -89,13 +86,6 @@ void Game::render()
 	}
 	if (current == Gamemode::Gameplay)
 	{
-		m_player.render(m_window);
-
-		for (Alien* alien : m_alien)
-		{
-			alien->render(m_window);
-		}
-
 		m_window.draw(walletText);
 	}
 
@@ -108,19 +98,6 @@ void Game::init()
 	walletText.setFont(font);
 	walletText.setFillColor(sf::Color::White);
 	walletText.setCharacterSize(20);
-
-	m_alienCount = 5;
-
-	for (int i = 0; i < m_alienCount; i++)
-	{
-		m_alien.push_back(new Alien);
-	}
-
-	m_alien.at(0)->setType(0);
-	m_alien.at(1)->setType(1);
-	m_alien.at(2)->setType(2);
-	m_alien.at(3)->setType(2);
-	m_alien.at(4)->setType(3);
 
 	m_audio.backgroundMusicSetup();
 }
