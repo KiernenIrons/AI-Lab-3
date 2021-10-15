@@ -49,13 +49,19 @@
     <ClInclude Include="Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Arrive.h">
+    <ClInclude Include="Seek.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Behaviour.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="playerBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Wander.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,10 +84,16 @@
     <ClCompile Include="Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Arrive.cpp">
+    <ClCompile Include="Seek.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="playerBehaviour.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wander.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

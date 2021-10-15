@@ -7,7 +7,7 @@ class Character;
 class Behaviour
 {
 public:
-	Behaviour() = default;
+	Behaviour() {};
 	virtual ~Behaviour() { };
 	virtual void update(Character* t_character, sf::Time t_deltaTime) = 0;
 };

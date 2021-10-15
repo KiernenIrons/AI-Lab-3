@@ -7,7 +7,18 @@ Game::Game() :
 {
 	init(); // load font
 
-	m_characters.push_back(new Character(new playerBehaviour()));
+	m_characters.push_back(new Character(new PlayerBehaviour()));
+	m_characters.push_back(new Character(new Seek(), 10.0f, 0.0f, 150.0f, 1.0f));
+	m_characters.push_back(new Character(new Wander(), 10.0f, 0.0f, 150.0f, 1.0f));
+	m_characters.push_back(new Character(new Arrive(), 10.0f, 0.0f, 150.0f, 1.0f));
+
+	m_characters.at(0)->setType(0); // Player
+	m_characters.at(1)->setType(1); // Seek
+	m_characters.at(2)->setType(2); // Wander
+	m_characters.at(3)->setType(3); // Arrive
+
+	m_characters.at(1)->setTarget(m_characters.at(0));
+	m_characters.at(3)->setTarget(m_characters.at(0));
 }
 
 Game::~Game()
@@ -70,10 +81,12 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		std::cout << "Gameplay Screen Active" << std::endl;
 
-		//m_player.handleWallWrap(m_window);
+		for (Character* character : m_characters)
+		{
+			character->update(t_deltaTime);
+			character->handleWallWrap(m_window);
+		}
 	}
-
-	walletText.setString("Materials: " + std::to_string(wallet));
 }
 
 void Game::render()
@@ -86,7 +99,10 @@ void Game::render()
 	}
 	if (current == Gamemode::Gameplay)
 	{
-		m_window.draw(walletText);
+		for (Character* character : m_characters)
+		{
+			m_window.draw(*character);
+		}
 	}
 
 	m_window.display();
@@ -94,10 +110,6 @@ void Game::render()
 
 void Game::init()
 {
-	font.loadFromFile("ASSETS\\FONTS\\ethnocentric.ttf");
-	walletText.setFont(font);
-	walletText.setFillColor(sf::Color::White);
-	walletText.setCharacterSize(20);
 
 	m_audio.backgroundMusicSetup();
 }

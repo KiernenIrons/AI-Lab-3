@@ -1,12 +1,12 @@
 #include "Arrive.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-void ArriveBehaviour::update(Character* t_character, sf::Time t_deltaTime)
+void Arrive::update(Character* t_character, sf::Time t_deltaTime)
 {
 	if (t_character && t_character->getTarget())
 	{
 		sf::Vector2f targetDir = t_character->getTarget()->getPosition() - t_character->getPosition();
-		float turn = (t_character->getDirection().x * targetDir.y);
+		float turn = (t_character->getDirection().x * targetDir.y) - (t_character->getDirection().y * targetDir.x);
 
 		if (turn < 0.0f)
 		{
@@ -17,10 +17,10 @@ void ArriveBehaviour::update(Character* t_character, sf::Time t_deltaTime)
 			t_character->rotateRight(t_deltaTime);
 		}
 
-		float const stopDist = (t_character->getSpeed() * 2.0f) / (2.0f * t_character->getAcceleration()) + m_gap;
-		float const targetDist = targetDir.x * targetDir.x + targetDir.y * targetDir.y;
+		float const stopDist = (t_character->getSpeed() * t_character->getSpeed()) / (2.0f * t_character->getAcceleration()) + m_gap;
+		float const magDir = sqrtf(targetDir.x * targetDir.x + targetDir.y * targetDir.y);
 
-		if (targetDist >= stopDist)
+		if (magDir >= stopDist)
 		{
 			t_character->accelerate(t_deltaTime);
 		}

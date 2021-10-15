@@ -10,11 +10,22 @@ m_rotation(t_rotation),
 m_speed(t_speed),
 m_rotationSpeed(t_rotationSpeed),
 m_behaviour(t_behaviour),
+m_velocity(t_speed, 0.0f),
 m_target(nullptr),
 m_active(true)
 {
-	m_sprite.setPosition(400.0f, 300.0f);
+	m_sprite.setPosition(rand() % G_SCREEN_WIDTH, rand() % G_SCREEN_HEIGHT);
 	setRotation(t_rotation);
+	circleSetup();
+
+	if (!m_font.loadFromFile("ASSETS/FONTS/ethnocentric.ttf"))
+	{
+		std::cout << "Font Not Loading" << std::endl;
+	}
+
+	m_name.setFont(m_font);
+	m_name.setCharacterSize(24);
+	m_name.setFillColor(sf::Color::White);
 }
 
 Character::~Character()
@@ -28,18 +39,20 @@ void Character::update(sf::Time t_deltaTime)
 		if (m_behaviour)
 		{
 			m_behaviour->update(this, t_deltaTime);
+			m_sprite.move(m_velocity * t_deltaTime.asSeconds());
+			m_circle.setPosition(m_sprite.getPosition());
+			m_name.setPosition(m_sprite.getPosition().x, m_sprite.getPosition().y - 50);
 		}
 	}
 }
 
 void Character::accelerate(sf::Time t_deltaTime)
 {
-	m_velocity += (m_velocity / getSpeed()) *
-				   m_acceleration * t_deltaTime.asSeconds();
+	m_velocity += getDirection() * m_acceleration * t_deltaTime.asSeconds();
 
 	if (getSpeed() > m_maxSpeed)
 	{
-		m_velocity = (m_velocity / getSpeed()) * m_maxSpeed;
+		m_velocity = getDirection() * m_maxSpeed;
 	}
 }
 
@@ -72,6 +85,8 @@ void Character::draw(sf::RenderTarget& t_target, sf::RenderStates t_state) const
 	if (m_active)
 	{
 		t_target.draw(m_sprite, t_state);
+		t_target.draw(m_circle, t_state);
+		t_target.draw(m_name, t_state);
 	}
 }
 
@@ -91,30 +106,44 @@ void Character::setType(int t_type)
 		switch (t_type)
 		{
 		case 0:
-			m_texture.loadFromFile("../ASSETS/IMAGES/player.png");
+			m_texture.loadFromFile("ASSETS/IMAGES/player.png");
+			m_name.setString("Player");
 			break;
 		case 1:
-			m_texture.loadFromFile("../ASSETS/IMAGES/AlienShipOne.png");
+			m_texture.loadFromFile("ASSETS/IMAGES/AlienShipOne.png");
+			m_name.setString("Seek");
 			break;
 		case 2:
-			m_texture.loadFromFile("../ASSETS/IMAGES/AlienShipTwo.png");
+			m_texture.loadFromFile("ASSETS/IMAGES/AlienShipTwo.png");
+			m_name.setString("Wander");
 			break;
 		case 3:
-			m_texture.loadFromFile("../ASSETS/IMAGES/AlienShipThree.png");
+			m_texture.loadFromFile("ASSETS/IMAGES/AlienShipThree.png");
+			m_name.setString("Arrive");
 			break;
 		case 4:
-			m_texture.loadFromFile("../ASSETS/IMAGES/AlienShipFour.png");
+			m_texture.loadFromFile("ASSETS/IMAGES/AlienShipFour.png");
+			m_name.setString("Persue");
 			break;
-		default:
 		}
 
 		m_sprite.setTexture(m_texture);
+		m_sprite.setOrigin(m_sprite.getGlobalBounds().width /2, m_sprite.getGlobalBounds().height / 2);
 	}
 }
 
 sf::Vector2f Character::getDirection() const
 {
-	return m_velocity / getSpeed();
+	if (getSpeed() != 0)
+	{
+		return m_velocity / getSpeed();
+	}
+	else
+	{
+		return sf::Vector2f{
+			cosf(m_sprite.getRotation() * (PI / 180.0f)),
+			sinf(m_sprite.getRotation() * (PI / 180.0f)) };
+	}
 }
 
 float Character::getSpeed() const
@@ -126,6 +155,16 @@ float Character::getSpeed() const
 Character* Character::getTarget() const
 {
 	return m_target;
+}
+
+void Character::setTarget(Character* t_target)
+{
+	m_target = t_target;
+}
+
+void Character::setMaxSpeed(float t_maxSpeed)
+{
+	m_maxSpeed = t_maxSpeed;
 }
 
 sf::Vector2f Character::getPosition() const
@@ -156,4 +195,12 @@ void Character::handleWallWrap(sf::RenderWindow& t_window)
 	{
 		m_sprite.setPosition(m_sprite.getPosition().x, t_window.getSize().y);
 	}
+}
+
+void Character::circleSetup()
+{
+	m_circle.setPosition(m_sprite.getPosition());
+	m_circle.setRadius(10);
+	m_circle.setOutlineColor(sf::Color::Red);
+	m_circle.setOutlineThickness(10);
 }

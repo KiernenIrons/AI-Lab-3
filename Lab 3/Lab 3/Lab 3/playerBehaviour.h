@@ -2,10 +2,10 @@
 
 #include "Behaviour.h"
 
-class playerBehaviour : public Behaviour
+class PlayerBehaviour : public Behaviour
 {
 public:
-	playerBehaviour() {};
-	~playerBehaviour() {};
+	PlayerBehaviour() {};
+	~PlayerBehaviour() {};
 	void update(Character* t_character, sf::Time t_deltaTime) override;
 };

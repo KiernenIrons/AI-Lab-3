@@ -2,10 +2,10 @@
 
 #include "Behaviour.h"
 
-class ArriveBehaviour : public Behaviour
+class Arrive : public Behaviour
 {
 public:
-	ArriveBehaviour() = default;
+	Arrive() = default;
 	void update(Character* t_character, sf::Time t_deltaTime) override;
 private:
 	float m_gap = 48.0f;
